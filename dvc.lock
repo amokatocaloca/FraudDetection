@@ -118,7 +118,7 @@ stages:
     outs:
     - path: models/final_best_lr_processed_cash_out_data.pkl
       hash: md5
-      md5: d74a4c628af250d1964efec523d602dc
+      md5: 8a905078294bd596ec8700446c8ce43e
       size: 1752
   select_best_model_transfer:
     cmd: python DLBDSMTP01/src/production_model_selection.py --experiment_name FraudDetectionModel
@@ -136,5 +136,5 @@ stages:
     outs:
     - path: models/final_best_lr_processed_transfer_data.pkl
       hash: md5
-      md5: d74a4c628af250d1964efec523d602dc
+      md5: 8a905078294bd596ec8700446c8ce43e
       size: 1752
