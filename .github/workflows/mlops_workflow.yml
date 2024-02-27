@@ -40,7 +40,8 @@ jobs:
 
     - name: Untrack and Reproduce DVC Pipeline
       run: |
-        git rm -r --cached plots && git commit -m "Stop tracking all files in plots"
+        git rm -r --cached 'plots/cash_pca.png'  
+        git rm -r --cached 'plots/transfer_pca.png'            
         git rm -r --cached metrics && git commit -m "Stop tracking all files in metrics"
         git rm -r --cached models && git commit -m "Stop tracking all files in models"
         dvc repro
