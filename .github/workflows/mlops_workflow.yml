@@ -67,4 +67,5 @@ jobs:
     - name: Kill Flask Application
       if: always()
       run: |
-        pkill -f python Api-Flask/deploy.py
+          pkill -f deploy.py
+      
