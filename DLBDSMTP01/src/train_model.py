@@ -110,10 +110,11 @@ def plot_confusion_matrix(y_true, y_pred, file_base, iteration, session_id=None)
     plt.xlabel('Predicted labels')
     plt.ylabel('True labels')
 
-    prf_dir = 'prf'
-    os.makedirs(prf_dir, exist_ok=True)
+    # Change this line to point to 'plots'
+    plots_dir = 'plots'
+    os.makedirs(plots_dir, exist_ok=True)
     filename_suffix = f"_{session_id}" if session_id else ""
-    plt.savefig(os.path.join(prf_dir, f'confusion_matrix_{file_base}_{iteration}{filename_suffix}.png'))
+    plt.savefig(os.path.join(plots_dir, f'confusion_matrix_{file_base}_{iteration}{filename_suffix}.png'))
     plt.close()
 
 def plot_precision_recall_curve(model, x_val, y_val, file_base, iteration, session_id=None):
@@ -127,9 +128,11 @@ def plot_precision_recall_curve(model, x_val, y_val, file_base, iteration, sessi
     plt.ylabel('Precision')
     plt.title(f'Precision-Recall Curve for Iteration {iteration}')
     plt.legend()
-    filename_suffix = f"_{session_id}" if session_id else ""
-    plt.savefig(os.path.join('prf', f'pr_curve_{file_base}_{iteration}{filename_suffix}.png'))
+    
+    # Change this line to point to 'plots'
+    plt.savefig(os.path.join('plots', f'pr_curve_{file_base}_{iteration}{filename_suffix}.png'))
     plt.close()
+
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore", category=FutureWarning)
