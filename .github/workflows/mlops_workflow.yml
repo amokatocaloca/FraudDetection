@@ -38,14 +38,11 @@ jobs:
       env:
         MLFLOW_TRACKING_URI: http://0.0.0.1:1234
 
-    - name: Untrack Plots and Reproduce DVC Pipeline
+    - name: Reproduce DVC Pipeline
       run: |
-          git rm -r --cached plots/cash_pca.png  
-          git rm -r --cached plots/transfer_pca.png
-          git commit -m "Stop tracking plot files"
           dvc repro
           git add .
-          git commit -m "Automated data update and pipeline repro after untracking plots" || echo "No changes to commit."
+          git commit -m "Automated data update and pipeline repro" || echo "No changes to commit."
   
     - name: Commit DVC Changes
       run: |
