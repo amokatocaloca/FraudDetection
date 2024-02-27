@@ -1,0 +1,6 @@
+artifact_location: mlflow-artifacts:/184272213501227562
+creation_time: 1708958186222
+experiment_id: '184272213501227562'
+last_update_time: 1708958186222
+lifecycle_stage: active
+name: FraudDetectionModel

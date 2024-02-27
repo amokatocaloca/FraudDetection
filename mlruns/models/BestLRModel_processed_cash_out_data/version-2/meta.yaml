@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1708958213153
+current_stage: None
+description: ''
+last_updated_timestamp: 1708958213153
+name: BestLRModel_processed_cash_out_data
+run_id: 51d5e462ce044f3f8cca6a6d0a928763
+run_link: ''
+source: mlflow-artifacts:/184272213501227562/51d5e462ce044f3f8cca6a6d0a928763/artifacts/model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/184272213501227562/51d5e462ce044f3f8cca6a6d0a928763/artifacts/model
+user_id: null
+version: 2

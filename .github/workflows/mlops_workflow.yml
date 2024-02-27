@@ -1,0 +1,69 @@
+name: Monthly Model Retraining
+
+on:
+  schedule:
+    # Runs at 00:00 UTC on the first day of every month
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+jobs:
+  retrain-model:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        lfs: true
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install dvc mlflow flask gunicorn
+
+    - name: Configure Git
+      run: |
+        git config --global user.email "amikaikki@gmail.com"
+        git config --global user.name "amokatocaloca"
+
+    - name: Simulate Data Changes
+      run: python simulate_data_changes.py DLBDSMTP01/data/external/fraud_data.csv DLBDSMTP01/data/external/
+    
+    - name: Run DVC Pipeline with MLflow
+      run: ./run_dvc_with_mlflow.sh
+      env:
+        MLFLOW_TRACKING_URI: http://0.0.0.1:1234
+
+    - name: Untrack and Reproduce DVC Pipeline
+      run: |
+        git rm -r --cached plots && git commit -m "Stop tracking all files in plots"
+        git rm -r --cached metrics && git commit -m "Stop tracking all files in metrics"
+        git rm -r --cached models && git commit -m "Stop tracking all files in models"
+        dvc repro
+
+    - name: Commit DVC Changes
+      run: |
+        git add .
+        git commit -m "Automated data update and pipeline repro" || echo "No changes to commit."
+        git push origin master
+
+    - name: Start Flask Application Using deploy.py
+      run: |
+        python Api-Flask/deploy.py &
+        echo "Flask app started in background"
+      shell: bash
+
+    - name: Wait for Flask to Start
+      run: sleep 10
+
+    - name: Test Flask Application
+      run: |
+        curl http://127.0.0.1:5000/swagger/
+
+    - name: Kill Flask Application
+      if: always()
+      run: |
+        pkill -f python Api-Flask/deploy.py

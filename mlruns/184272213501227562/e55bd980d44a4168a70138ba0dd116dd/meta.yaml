@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/184272213501227562/e55bd980d44a4168a70138ba0dd116dd/artifacts
+end_time: 1709061270561
+entry_point_name: ''
+experiment_id: '184272213501227562'
+lifecycle_stage: active
+run_id: e55bd980d44a4168a70138ba0dd116dd
+run_name: defiant-frog-356
+run_uuid: e55bd980d44a4168a70138ba0dd116dd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709061264593
+status: 4
+tags: []
+user_id: amira

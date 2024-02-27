@@ -1,0 +1,140 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python -m DLBDSMTP01.src.preprocess DLBDSMTP01/data/external/modified_fraud_data.csv
+      - DLBDSMTP01/src/preprocess.py - DLBDSMTP01/data/external/modified_fraud_data.csv
+    outs:
+    - path: DLBDSMTP01/data/processed/processed_cash_in_data.csv
+      hash: md5
+      md5: 1c79e5df6b575d352d64aab24598c1d0
+      size: 108257665
+    - path: DLBDSMTP01/data/processed/processed_cash_out_data.csv
+      hash: md5
+      md5: 6a0972a5461ad6c4ceb9e2f55d637c50
+      size: 147487790
+    - path: DLBDSMTP01/data/processed/processed_debit_data.csv
+      hash: md5
+      md5: 92050adc0e4a10fa4f5b7b67eadcc1fe
+      size: 3081960
+    - path: DLBDSMTP01/data/processed/processed_payment_data.csv
+      hash: md5
+      md5: 1960e9548ec0ebe9e1cd6bdcc273a2fb
+      size: 112052567
+    - path: DLBDSMTP01/data/processed/processed_transfer_data.csv
+      hash: md5
+      md5: 51d508ef01dac611f0a71b9a4a8e7e3f
+      size: 34114787
+  analyze_processed_cash_out:
+    cmd: python DLBDSMTP01/src/analyze_processed.py DLBDSMTP01/data/processed/processed_cash_out_data.csv
+    deps:
+    - path: DLBDSMTP01/data/processed/processed_cash_out_data.csv
+      hash: md5
+      md5: 6a0972a5461ad6c4ceb9e2f55d637c50
+      size: 147487790
+    - path: DLBDSMTP01/src/analyze_processed.py
+      hash: md5
+      md5: 9ab328254aeb40919ae3d966b48c923b
+      size: 2450
+    outs:
+    - path: plots/cash_pca.png
+      hash: md5
+      md5: 3938769a26a5999f4da8699b26924e14
+      size: 47036
+  analyze_processed_transfer:
+    cmd: python DLBDSMTP01/src/analyze_processed.py DLBDSMTP01/data/processed/processed_transfer_data.csv
+    deps:
+    - path: DLBDSMTP01/data/processed/processed_transfer_data.csv
+      hash: md5
+      md5: 51d508ef01dac611f0a71b9a4a8e7e3f
+      size: 34114787
+    - path: DLBDSMTP01/src/analyze_processed.py
+      hash: md5
+      md5: 9ab328254aeb40919ae3d966b48c923b
+      size: 2450
+    outs:
+    - path: plots/transfer_pca.png
+      hash: md5
+      md5: d83294ca355bd64057ea97983d4b0d75
+      size: 46349
+  train_cash_out:
+    cmd: python DLBDSMTP01/src/train_model.py --data_filename DLBDSMTP01/data/processed/processed_cash_out_data.csv
+    deps:
+    - path: DLBDSMTP01/data/processed/processed_cash_out_data.csv
+      hash: md5
+      md5: 6a0972a5461ad6c4ceb9e2f55d637c50
+      size: 147487790
+    - path: DLBDSMTP01/src/train_model.py
+      hash: md5
+      md5: 57e12ab94601ea37d3a16f98640016c4
+      size: 6297
+    params:
+      params.yaml:
+        train.max_iters: 500
+    outs:
+    - path: metrics/train_metrics_processed_cash_out_data.json
+      hash: md5
+      md5: 2347cca86aac6d0be60dce1b71cdd9b8
+      size: 110
+    - path: models/best_lr_processed_cash_out_data.pkl
+      hash: md5
+      md5: b614c3aca5524d1ee3cde95c35ee8ce5
+      size: 791
+  train_transfer:
+    cmd: python DLBDSMTP01/src/train_model.py --data_filename DLBDSMTP01/data/processed/processed_transfer_data.csv
+    deps:
+    - path: DLBDSMTP01/data/processed/processed_transfer_data.csv
+      hash: md5
+      md5: 51d508ef01dac611f0a71b9a4a8e7e3f
+      size: 34114787
+    - path: DLBDSMTP01/src/train_model.py
+      hash: md5
+      md5: 57e12ab94601ea37d3a16f98640016c4
+      size: 6297
+    params:
+      params.yaml:
+        train.max_iters: 500
+    outs:
+    - path: metrics/train_metrics_processed_transfer_data.json
+      hash: md5
+      md5: ae47747830902bad54b21bac59a46008
+      size: 109
+    - path: models/best_lr_processed_transfer_data.pkl
+      hash: md5
+      md5: 2e90b3531ccf0444d9f1eb12a9da648e
+      size: 791
+  select_best_model_cash_out:
+    cmd: python DLBDSMTP01/src/production_model_selection.py --experiment_name FraudDetectionModel
+      --metric_name val_f1_score --registered_model_name BestLRModel_processed_cash_out_data
+      --local_model_path models/final_best_lr_processed_cash_out_data.pkl
+    deps:
+    - path: DLBDSMTP01/src/production_model_selection.py
+      hash: md5
+      md5: 1ca7439944dae8fe6a2dff5edce9b3de
+      size: 2986
+    - path: metrics/train_metrics_processed_cash_out_data.json
+      hash: md5
+      md5: 2347cca86aac6d0be60dce1b71cdd9b8
+      size: 110
+    outs:
+    - path: models/final_best_lr_processed_cash_out_data.pkl
+      hash: md5
+      md5: b1a92920a0c884913370c3fa9a2f74a6
+      size: 1752
+  select_best_model_transfer:
+    cmd: python DLBDSMTP01/src/production_model_selection.py --experiment_name FraudDetectionModel
+      --metric_name val_f1_score --registered_model_name BestLRModel_processed_transfer_data
+      --local_model_path models/final_best_lr_processed_transfer_data.pkl
+    deps:
+    - path: DLBDSMTP01/src/production_model_selection.py
+      hash: md5
+      md5: 1ca7439944dae8fe6a2dff5edce9b3de
+      size: 2986
+    - path: metrics/train_metrics_processed_transfer_data.json
+      hash: md5
+      md5: ae47747830902bad54b21bac59a46008
+      size: 109
+    outs:
+    - path: models/final_best_lr_processed_transfer_data.pkl
+      hash: md5
+      md5: b1a92920a0c884913370c3fa9a2f74a6
+      size: 1752

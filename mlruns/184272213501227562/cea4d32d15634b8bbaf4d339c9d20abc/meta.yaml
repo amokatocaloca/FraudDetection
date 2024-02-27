@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/184272213501227562/cea4d32d15634b8bbaf4d339c9d20abc/artifacts
+end_time: 1708958259250
+entry_point_name: ''
+experiment_id: '184272213501227562'
+lifecycle_stage: active
+run_id: cea4d32d15634b8bbaf4d339c9d20abc
+run_name: stylish-crow-699
+run_uuid: cea4d32d15634b8bbaf4d339c9d20abc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1708958255927
+status: 3
+tags: []
+user_id: amira

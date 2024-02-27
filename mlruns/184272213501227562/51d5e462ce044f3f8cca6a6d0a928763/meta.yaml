@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/184272213501227562/51d5e462ce044f3f8cca6a6d0a928763/artifacts
+end_time: 1708958213158
+entry_point_name: ''
+experiment_id: '184272213501227562'
+lifecycle_stage: active
+run_id: 51d5e462ce044f3f8cca6a6d0a928763
+run_name: casual-deer-824
+run_uuid: 51d5e462ce044f3f8cca6a6d0a928763
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1708958209894
+status: 3
+tags: []
+user_id: amira

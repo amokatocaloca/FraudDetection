@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/184272213501227562/2b232a39a9b246abbf6b658f2e121f86/artifacts
+end_time: 1709060027083
+entry_point_name: ''
+experiment_id: '184272213501227562'
+lifecycle_stage: active
+run_id: 2b232a39a9b246abbf6b658f2e121f86
+run_name: worried-bug-850
+run_uuid: 2b232a39a9b246abbf6b658f2e121f86
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709060021154
+status: 4
+tags: []
+user_id: amira

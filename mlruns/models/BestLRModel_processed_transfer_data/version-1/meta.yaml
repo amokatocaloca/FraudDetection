@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1708958240006
+current_stage: None
+description: ''
+last_updated_timestamp: 1708958240006
+name: BestLRModel_processed_transfer_data
+run_id: e478d7819ed842139b425b3e168d6e30
+run_link: ''
+source: mlflow-artifacts:/184272213501227562/e478d7819ed842139b425b3e168d6e30/artifacts/model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/184272213501227562/e478d7819ed842139b425b3e168d6e30/artifacts/model
+user_id: null
+version: 1

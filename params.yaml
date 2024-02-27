@@ -1,0 +1,13 @@
+train:
+  max_iters: 500
+  test_size: 0.3
+  random_state: 42
+  class_weight: balanced
+experiment_name: FraudDetectionModel
+
+model_directory: "model_webapp_dir/models"
+
+models:
+  cash_out: final_best_lr_processed_cash_out_data.pkl
+  transfer: final_best_lr_processed_transfer_data.pkl
+

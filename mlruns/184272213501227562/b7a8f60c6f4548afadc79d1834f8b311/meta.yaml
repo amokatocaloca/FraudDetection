@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/184272213501227562/b7a8f60c6f4548afadc79d1834f8b311/artifacts
+end_time: 1709060832826
+entry_point_name: ''
+experiment_id: '184272213501227562'
+lifecycle_stage: active
+run_id: b7a8f60c6f4548afadc79d1834f8b311
+run_name: welcoming-eel-698
+run_uuid: b7a8f60c6f4548afadc79d1834f8b311
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709060826519
+status: 4
+tags: []
+user_id: amira

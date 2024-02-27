@@ -1,0 +1,23 @@
+openapi: "3.0.3"
+info:
+  title: "Flask API"
+  version: "1.0.0"
+paths:
+  /books:
+    get:
+      summary: "Retrieve all books"
+      responses:
+        '200':
+          description: "Successful"
+  /books/{id}:
+    get:
+      summary: "Retrieve specific book"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "Successful"

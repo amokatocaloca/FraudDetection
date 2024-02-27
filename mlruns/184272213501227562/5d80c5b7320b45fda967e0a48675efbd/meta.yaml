@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/184272213501227562/5d80c5b7320b45fda967e0a48675efbd/artifacts
+end_time: 1709061892513
+entry_point_name: ''
+experiment_id: '184272213501227562'
+lifecycle_stage: active
+run_id: 5d80c5b7320b45fda967e0a48675efbd
+run_name: rebellious-stork-372
+run_uuid: 5d80c5b7320b45fda967e0a48675efbd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709061889331
+status: 3
+tags: []
+user_id: amira

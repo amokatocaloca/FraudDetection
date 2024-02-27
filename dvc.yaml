@@ -1,0 +1,69 @@
+stages:
+  preprocess:
+    cmd: python -m DLBDSMTP01.src.preprocess DLBDSMTP01/data/external/modified_fraud_data.csv
+      - DLBDSMTP01/src/preprocess.py
+      - DLBDSMTP01/data/external/modified_fraud_data.csv
+    outs:
+      - DLBDSMTP01/data/processed/processed_cash_out_data.csv
+      - DLBDSMTP01/data/processed/processed_transfer_data.csv
+      - DLBDSMTP01/data/processed/processed_payment_data.csv
+      - DLBDSMTP01/data/processed/processed_cash_in_data.csv
+      - DLBDSMTP01/data/processed/processed_debit_data.csv
+
+
+  analyze_processed_cash_out:
+    cmd: python DLBDSMTP01/src/analyze_processed.py DLBDSMTP01/data/processed/processed_cash_out_data.csv
+    deps:
+      - DLBDSMTP01/src/analyze_processed.py
+      - DLBDSMTP01/data/processed/processed_cash_out_data.csv
+    outs:
+      - plots/cash_pca.png
+
+  analyze_processed_transfer:
+    cmd: python DLBDSMTP01/src/analyze_processed.py DLBDSMTP01/data/processed/processed_transfer_data.csv
+    deps:
+      - DLBDSMTP01/src/analyze_processed.py
+      - DLBDSMTP01/data/processed/processed_transfer_data.csv
+    outs:
+      - plots/transfer_pca.png
+
+  train_cash_out:
+    cmd: python DLBDSMTP01/src/train_model.py --data_filename DLBDSMTP01/data/processed/processed_cash_out_data.csv
+    deps:
+      - DLBDSMTP01/src/train_model.py
+      - DLBDSMTP01/data/processed/processed_cash_out_data.csv
+    params:
+      - train.max_iters
+    metrics:
+      - metrics/train_metrics_processed_cash_out_data.json
+    outs:
+      - models/best_lr_processed_cash_out_data.pkl
+
+
+  train_transfer:
+    cmd: python DLBDSMTP01/src/train_model.py --data_filename DLBDSMTP01/data/processed/processed_transfer_data.csv
+    deps:
+      - DLBDSMTP01/src/train_model.py
+      - DLBDSMTP01/data/processed/processed_transfer_data.csv
+    params:
+      - train.max_iters
+    metrics:
+      - metrics/train_metrics_processed_transfer_data.json
+    outs:
+      - models/best_lr_processed_transfer_data.pkl 
+    
+  select_best_model_cash_out:
+    cmd: python DLBDSMTP01/src/production_model_selection.py --experiment_name FraudDetectionModel --metric_name val_f1_score --registered_model_name BestLRModel_processed_cash_out_data --local_model_path models/final_best_lr_processed_cash_out_data.pkl
+    deps:
+      - DLBDSMTP01/src/production_model_selection.py
+      - metrics/train_metrics_processed_cash_out_data.json
+    outs:
+      - models/final_best_lr_processed_cash_out_data.pkl
+
+  select_best_model_transfer:
+    cmd: python DLBDSMTP01/src/production_model_selection.py --experiment_name FraudDetectionModel --metric_name val_f1_score --registered_model_name BestLRModel_processed_transfer_data --local_model_path models/final_best_lr_processed_transfer_data.pkl
+    deps:
+      - DLBDSMTP01/src/production_model_selection.py
+      - metrics/train_metrics_processed_transfer_data.json
+    outs:
+      - models/final_best_lr_processed_transfer_data.pkl
