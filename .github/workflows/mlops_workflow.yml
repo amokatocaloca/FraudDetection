@@ -30,7 +30,7 @@ jobs:
         git config --global user.name "amokatocaloca"
 
     - name: Simulate Data Changes
-      run: python simulate_data_changes.py DLBDSMTP01/data/external/fraud_data.csv DLBDSMTP01/data/external/
+      run: python simulate_data_changes.py DLBDSMTP01/data/external/placeholder.csv DLBDSMTP01/data/external/
     
     - name: Run DVC Pipeline with MLflow
       run: ./run_dvc_with_mlflow.sh
