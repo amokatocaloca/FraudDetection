@@ -23,7 +23,7 @@ mlflow.set_tracking_uri("http://0.0.0.0:1234")  # Set the MLflow tracking URI
 from mlflow.tracking import MlflowClient
 
 client = MlflowClient()
-experiment_name = "FraudDetectionModelExperiment"
+experiment_name = "FraudDetectionModel"
 experiment = client.get_experiment_by_name(experiment_name)
 
 if experiment is None:
@@ -110,7 +110,6 @@ def plot_confusion_matrix(y_true, y_pred, file_base, iteration, session_id=None)
     plt.xlabel('Predicted labels')
     plt.ylabel('True labels')
 
-    # Change this line to point to 'plots'
     plots_dir = 'plots'
     os.makedirs(plots_dir, exist_ok=True)
     filename_suffix = f"_{session_id}" if session_id else ""
@@ -128,9 +127,11 @@ def plot_precision_recall_curve(model, x_val, y_val, file_base, iteration, sessi
     plt.ylabel('Precision')
     plt.title(f'Precision-Recall Curve for Iteration {iteration}')
     plt.legend()
-    
-    # Change this line to point to 'plots'
-    plt.savefig(os.path.join('plots', f'pr_curve_{file_base}_{iteration}{filename_suffix}.png'))
+
+    plots_dir = 'plots'
+    os.makedirs(plots_dir, exist_ok=True)
+    filename_suffix = f"_{session_id}" if session_id else ""
+    plt.savefig(os.path.join(plots_dir, f'pr_curve_{file_base}_{iteration}{filename_suffix}.png'))
     plt.close()
 
 
