@@ -17,7 +17,8 @@ def get_transaction_type(filename):
     Assumes the filename format is 'processed_{transaction_type}_data.csv'.
     """
     base_name = os.path.basename(filename)
-    transaction_type = base_name.split('_')[1] 
+    transaction_type = base_name.split('_')[1]
+    return transaction_type
 
 def analyze(filename):
     if not os.path.exists(filename):
