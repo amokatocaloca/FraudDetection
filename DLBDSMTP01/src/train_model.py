@@ -92,6 +92,9 @@ def logreg_and_register(x_train, y_train, x_val, y_val, x_test, y_test, file_bas
         }
         metrics_filename = f'metrics/train_metrics_{file_base}.json'
         save_metrics_to_json(metrics_data, metrics_filename)
+        plot_confusion_matrix(y_val, y_val_pred, file_base, "final", mlflow.active_run().info.run_id)
+        plot_precision_recall_curve(lr, x_val_scaled, y_val, file_base, "final", mlflow.active_run().info.run_id)
+
         print(f"Metrics saved to {metrics_filename}")
 
 # Function to scale data
@@ -102,7 +105,7 @@ def scale_data(x_train, x_val, x_test):
     x_test_scaled = scaler.transform(x_test)
     return x_train_scaled, x_val_scaled, x_test_scaled
 
-def plot_confusion_matrix(y_true, y_pred, file_base, iteration, session_id=None):
+def plot_confusion_matrix(y_true, y_pred, file_base, iteration, run_id):
     cm = confusion_matrix(y_true, y_pred)
     plt.figure(figsize=(8, 6))
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
@@ -112,11 +115,12 @@ def plot_confusion_matrix(y_true, y_pred, file_base, iteration, session_id=None)
 
     plots_dir = 'plots'
     os.makedirs(plots_dir, exist_ok=True)
-    filename_suffix = f"_{session_id}" if session_id else ""
-    plt.savefig(os.path.join(plots_dir, f'confusion_matrix_{file_base}_{iteration}{filename_suffix}.png'))
+    plot_path = os.path.join(plots_dir, f'confusion_matrix_{file_base}_{iteration}_{run_id}.png')
+    plt.savefig(plot_path)
     plt.close()
+    print(f"Plot saved: {plot_path}")
 
-def plot_precision_recall_curve(model, x_val, y_val, file_base, iteration, session_id=None):
+def plot_precision_recall_curve(model, x_val, y_val, file_base, iteration, run_id):
     y_scores = model.predict_proba(x_val)[:, 1]
     precision, recall, _ = precision_recall_curve(y_val, y_scores)
     auc_score = auc(recall, precision)
@@ -128,12 +132,12 @@ def plot_precision_recall_curve(model, x_val, y_val, file_base, iteration, sessi
     plt.title(f'Precision-Recall Curve for Iteration {iteration}')
     plt.legend()
 
-    plots_dir = 'plots'
+    plots_dir = 'plots' 
     os.makedirs(plots_dir, exist_ok=True)
-    filename_suffix = f"_{session_id}" if session_id else ""
-    plt.savefig(os.path.join(plots_dir, f'pr_curve_{file_base}_{iteration}{filename_suffix}.png'))
+    plot_path = os.path.join(plots_dir, f'pr_curve_{file_base}_{iteration}_{run_id}.png')
+    plt.savefig(plot_path)
     plt.close()
-
+    print(f"Plot saved: {plot_path}")
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore", category=FutureWarning)
@@ -142,13 +146,8 @@ if __name__ == "__main__":
     parser.add_argument('--params_path', type=str, default='params.yaml', help='Path to the parameters YAML file.')
     args = parser.parse_args()
 
-    # Extract file_base here to ensure it's defined before use
     file_base = os.path.splitext(os.path.basename(args.data_filename))[0]
     params = read_params(args.params_path)
-    print("Training parameters:", params)
-
-    train_params = params['train']
-    experiment_name = params['experiment_name']
 
     df = pd.read_csv(args.data_filename)
     if df.empty:
@@ -158,7 +157,7 @@ if __name__ == "__main__":
     X = df.drop(['isFraud', 'type'], axis=1).values
     y = df['isFraud'].values
 
-    x_train, x_val_test, y_train, y_val_test = train_test_split(X, y, stratify=y, test_size=train_params['test_size'], random_state=train_params['random_state'])
-    x_val, x_test, y_val, y_test = train_test_split(x_val_test, y_val_test, stratify=y_val_test, test_size=0.5, random_state=train_params['random_state'])
+    x_train, x_val_test, y_train, y_val_test = train_test_split(X, y, stratify=y, test_size=params['train']['test_size'], random_state=params['train']['random_state'])
+    x_val, x_test, y_val, y_test = train_test_split(x_val_test, y_val_test, stratify=y_val_test, test_size=0.5, random_state=params['train']['random_state'])
 
-    logreg_and_register(x_train, y_train, x_val, y_val, x_test, y_test, file_base, train_params, experiment_name)
+    logreg_and_register(x_train, y_train, x_val, y_val, x_test, y_test, file_base, params['train'], experiment_name)

@@ -3,6 +3,12 @@ from mlflow.tracking import MlflowClient
 import argparse
 import os
 import joblib  # For saving the model locally
+import matplotlib.pyplot as plt
+from sklearn.metrics import precision_recall_fscore_support, auc, confusion_matrix, precision_recall_curve
+import seaborn as sns
+import matplotlib
+matplotlib.use('Agg')
+
 
 # Set the MLflow tracking URI
 mlflow.set_tracking_uri("http://0.0.0.0:1234")
@@ -51,6 +57,7 @@ def select_and_register_best_model(experiment_name, metric_name, registered_mode
     joblib.dump(model, local_model_path)
     print(f"Best model saved locally at: {local_model_path}")
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Select and register the best model based on metrics.")
     parser.add_argument("--experiment_name", type=str, required=True, help="Name of the MLflow experiment.")
@@ -66,3 +73,4 @@ if __name__ == "__main__":
         registered_model_name=args.registered_model_name,
         local_model_path=args.local_model_path
     )
+
