@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib
-matplotlib.use('Agg')  # Use the Agg backend for file generation without requiring a window server
+matplotlib.use('Agg') 
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
@@ -17,8 +17,7 @@ def get_transaction_type(filename):
     Assumes the filename format is 'processed_{transaction_type}_data.csv'.
     """
     base_name = os.path.basename(filename)
-    transaction_type = base_name.split('_')[1]  # Assuming the second element after split is the transaction type.
-    return transaction_type
+    transaction_type = base_name.split('_')[1] 
 
 def analyze(filename):
     if not os.path.exists(filename):

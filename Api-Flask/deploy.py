@@ -6,7 +6,6 @@ from flask_restful import Api, Resource, MethodNotAllowed, NotFound
 from util.common import domain, port, prefix, build_swagger_config_json
 from resources.swaggerConfig import SwaggerConfig
 from resources.bookResource import BooksGETResource, BookGETResource, BookPOSTResource, BookPUTResource, BookDELETEResource
-# Removed the flask_swagger_ui import as we will use flasgger
 import os
 import joblib
 import pandas as pd
@@ -84,7 +83,6 @@ def preprocess_input(input_data):
     df = pd.DataFrame([input_data])
     df = df[['step', 'type', 'amount', 'nameOrig', 'oldbalanceOrg', 'newbalanceOrig', 'nameDest', 'oldbalanceDest', 'newbalanceDest', 'isFraud']]
     
-    # Assuming 'type' is categorical and needs to be encoded
     le_type = LabelEncoder()
     df['type'] = le_type.fit_transform(df['type'])
     
