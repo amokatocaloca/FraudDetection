@@ -9,5 +9,3 @@ sleep 10
 # Execute DVC repro command
 dvc repro
 
-# Optionally, wait for any background process to complete
-# wait
