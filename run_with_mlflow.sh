@@ -6,6 +6,3 @@ mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./
 # Wait for the MLflow server to start
 sleep 10
 
-# Execute DVC repro command
-dvc repro
-
