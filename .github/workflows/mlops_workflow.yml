@@ -34,7 +34,7 @@ jobs:
       run: python simulate_data_changes.py DLBDSMTP01/data/external/placeholder.csv DLBDSMTP01/data/external/
     
     - name: Run DVC Pipeline with MLflow
-      run: ./run_dvc_with_mlflow.sh
+      run: ./run_with_mlflow.sh
       env:
         MLFLOW_TRACKING_URI: http://0.0.0.1:1234
 
