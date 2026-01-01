@@ -82,7 +82,7 @@ stages:
       size: 110
     - path: models/best_lr_processed_cash_out_data.pkl
       hash: md5
-      md5: de25a76a46a634074cbc9035d9792a8e
+      md5: 934868c0ffe7262b1b82bb8d2f32bb24
       size: 791
   train_transfer:
     cmd: python DLBDSMTP01/src/train_model.py --data_filename 
@@ -106,7 +106,7 @@ stages:
       size: 109
     - path: models/best_lr_processed_transfer_data.pkl
       hash: md5
-      md5: 315b1b8bd063b57e5fc2665ba3b60703
+      md5: 5d8399d216ca507fcce9abd77da77081
       size: 791
   select_best_model_cash_out:
     cmd: python DLBDSMTP01/src/production_model_selection.py --experiment_name 
@@ -125,7 +125,7 @@ stages:
     outs:
     - path: models/final_best_lr_processed_cash_out_data.pkl
       hash: md5
-      md5: e623cf391b615808d078b81d585267b8
+      md5: 9ddea5a0dc2fa76f770bd8734186bc0a
       size: 1752
   select_best_model_transfer:
     cmd: python DLBDSMTP01/src/production_model_selection.py --experiment_name 
@@ -144,5 +144,5 @@ stages:
     outs:
     - path: models/final_best_lr_processed_transfer_data.pkl
       hash: md5
-      md5: e623cf391b615808d078b81d585267b8
+      md5: 9ddea5a0dc2fa76f770bd8734186bc0a
       size: 1752
